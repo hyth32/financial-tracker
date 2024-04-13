@@ -2,11 +2,10 @@
 import React, {useEffect, useState} from 'react'
 import CardWrapper from '@/ui/CardWrapper'
 import Table from '@/components/Table'
-import axios from 'axios'
 import {getIncome} from '@/app/api/get-income/getIncome'
 import {getExpenses} from '@/app/api/get-expenses/getExpenses'
-import {addExpense} from '@/app/api/add-expense/addExpense'
-import {addIncome} from '@/app/api/add-income/addIncome'
+import {addRow} from '@/app/api/add-row/addRow'
+import {Row} from '@/app/data/types'
 
 const statisticsTableRows = [
     {type: 'statistics', name: 'Budget', amount: 1000},
@@ -15,19 +14,18 @@ const statisticsTableRows = [
 ]
 
 function Page() {
-    const [expensesRows, setExpensesRows] = useState([])
-    const [incomeRows, setIncomeRows] = useState([])
+    const [expensesRows, setExpensesRows] = useState<Row[]>([])
+    const [incomeRows, setIncomeRows] = useState<Row[]>([])
 
     useEffect(() => {
-        const setExpenses = async () => {
-            setExpensesRows(await getExpenses())
-        }
-        setExpenses()
+        const fetchData = async () => {
+            const expenses = await getExpenses()
+            setExpensesRows(expenses)
 
-        const setIncome = async () => {
-            setIncomeRows(await getIncome())
+            const income = await getIncome()
+            setIncomeRows(income)
         }
-        setIncome()
+        fetchData()
     }, [])
 
     const handleAddRow = async (type: string) => {
@@ -36,14 +34,7 @@ function Page() {
             name: 'Mock row',
             amount: 0,
         }
-        if (type === 'expenses') {
-            await addExpense({...newRow})
-            setExpensesRows(await getExpenses())
-        }
-        if (type === 'income') {
-            await addIncome({...newRow})
-            setIncomeRows(await getIncome())
-        }
+        await addRow({...newRow})
     }
 
     return (

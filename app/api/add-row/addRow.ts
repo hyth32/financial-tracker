@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export async function addExpense({type, name, amount}: { type: string, name: string, amount: number }) {
+export async function addRow({type, name, amount}: { type: string, name: string, amount: number }) {
     const response = await axios.post(
-        '/api/add-expense',
+        '/api/add-row',
         JSON.stringify({type, name, amount}),
     )
     return response.data

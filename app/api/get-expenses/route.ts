@@ -6,6 +6,6 @@ export async function GET(request: Request) {
         const {rows} = await sql`SELECT * FROM Expenses`
         return new NextResponse(JSON.stringify({data: rows, status: 200}))
     } catch (error) {
-        return NextResponse.json({error}, {status: 500})
+        return new NextResponse(JSON.stringify({error: error, status: 500}))
     }
 }
