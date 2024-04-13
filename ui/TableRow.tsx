@@ -17,10 +17,10 @@ function TableRow({name, amount, type}: TableRowProps) {
     return (
         <div className={type !== 'statistics' ? 'border-b py-4' : ''}>
             <div className={'flex justify-between'}>
-                {name && amount ?
+                {name ?
                     <>
                         <p className={type === 'statistics' ? 'font-medium' : ''}>{name}</p>
-                        <p>{amount.toLocaleString('ru-RU')} ₽</p>
+                        <p>{amount && amount > 0 ? `${amount.toLocaleString('ru-RU')} ₽` : 'Empty'}</p>
                     </>
                     :
                     mainRow
