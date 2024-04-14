@@ -6,9 +6,9 @@ export async function POST(request: NextRequest) {
 
     try {
         type === 'expenses' ?
-            await sql`INSERT INTO Expenses (Type, Name, Amount) VALUES (${type}, ${name}, ${Number(amount)});`
+            await sql`INSERT INTO expenses (Type, Name, Amount) VALUES (${type}, ${name}, ${Number(amount)});`
             :
-            await sql`INSERT INTO Income (Type, Name, Amount) VALUES (${type}, ${name}, ${Number(amount)});`
+            await sql`INSERT INTO income (Type, Name, Amount) VALUES (${type}, ${name}, ${Number(amount)});`
         return new NextResponse(JSON.stringify({status: 200}))
     } catch (error) {
         return new NextResponse(JSON.stringify({error: error, status: 500}))

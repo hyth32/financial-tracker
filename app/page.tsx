@@ -1,11 +1,11 @@
 'use client'
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import CardWrapper from '@/ui/CardWrapper'
 import Table from '@/components/Table'
 import {getIncome} from '@/app/api/get-income/getIncome'
 import {getExpenses} from '@/app/api/get-expenses/getExpenses'
 import {addRow} from '@/app/api/add-row/addRow'
-import {Row} from '@/app/data/types'
+import useSWR from 'swr'
 
 const statisticsTableRows = [
     {type: 'statistics', name: 'Budget', amount: 1000},
@@ -14,19 +14,8 @@ const statisticsTableRows = [
 ]
 
 function Page() {
-    const [expensesRows, setExpensesRows] = useState<Row[]>([])
-    const [incomeRows, setIncomeRows] = useState<Row[]>([])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const expenses = await getExpenses()
-            setExpensesRows(expenses)
-
-            const income = await getIncome()
-            setIncomeRows(income)
-        }
-        fetchData()
-    }, [])
+    const {data: expensesData, mutate: mutateExpenses} = useSWR('/api/get-expenses', getExpenses)
+    const {data: incomeData} = useSWR('/api/get-income', getIncome)
 
     const handleAddRow = async (type: string) => {
         const newRow = {
@@ -48,14 +37,14 @@ function Page() {
                             className={'absolute right-6 top-6 py-1 px-3 rounded-lg font-medium bg-zinc-100 hover:bg-zinc-200 transition-all'}>
                         Add
                     </button>
-                    <Table title={'Expenses'} rows={expensesRows}/>
+                    <Table title={'Expenses'} rows={expensesData || []}/>
                 </CardWrapper>
                 <CardWrapper addClassName={'w-1/2 relative'}>
                     <button onClick={() => handleAddRow('income')}
                             className={'absolute right-6 top-6 py-1 px-3 rounded-lg font-medium bg-zinc-100 hover:bg-zinc-200 transition-all'}>
                         Add
                     </button>
-                    <Table title={'Income'} rows={incomeRows}/>
+                    <Table title={'Income'} rows={incomeData || []}/>
                 </CardWrapper>
             </div>
         </div>
