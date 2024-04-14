@@ -5,12 +5,12 @@ type CardWrapperProps = {
     addClassName?: string
 }
 
-function CardWrapper({children, addClassName}: CardWrapperProps) {
+function TableWrapper({children, addClassName}: CardWrapperProps) {
     return (
-        <div className={`p-6 border rounded-md ${addClassName}`}>
+        <div className={`relative p-6 border rounded-md ${addClassName}`}>
             {children}
         </div>
     )
 }
 
-export default CardWrapper
+export default TableWrapper

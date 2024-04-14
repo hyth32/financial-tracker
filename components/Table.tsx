@@ -10,10 +10,12 @@ type TableProps = {
 }
 
 function Table({title, rows, onDelete}: TableProps) {
+    const isStats = title.toLowerCase() === 'statistics'
+
     return (
         <div>
-            <Title type={'h2'} content={title} addClassName={'mb-2'}/>
-            {title.toLowerCase() !== 'statistics' && <TableRow type={title.toLowerCase()}/>}
+            <Title type={'h2'} content={title} addClassName={'mb-4'}/>
+            {!isStats && <TableRow type={title.toLowerCase()}/>}
             {rows.length === 0 && <p className={'py-4'}>No data</p>}
             {rows.map(row => (
                 <TableRow key={row.id} {...row} onDelete={() => onDelete!(row.id)}/>
