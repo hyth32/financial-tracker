@@ -4,8 +4,8 @@ import CardWrapper from '@/ui/CardWrapper'
 import Table from '@/components/Table'
 import {getIncome} from '@/app/api/get-income/getIncome'
 import {getExpenses} from '@/app/api/get-expenses/getExpenses'
-import {addRow} from '@/app/api/add-row/addRow'
 import useSWR from 'swr'
+import {Row} from '@/data/types'
 
 const statisticsTableRows = [
     {type: 'statistics', name: 'Budget', amount: 1000},
@@ -14,8 +14,8 @@ const statisticsTableRows = [
 ]
 
 function Page() {
-    const {data: expensesData, mutate: mutateExpenses} = useSWR('/api/get-expenses', getExpenses)
-    const {data: incomeData} = useSWR('/api/get-income', getIncome)
+    const {data: expensesData} = useSWR<Row[]>('/api/get-expenses', getExpenses)
+    const {data: incomeData} = useSWR<Row[]>('/api/get-income', getIncome)
 
     const handleAddRow = async (type: string) => {
         const newRow = {
@@ -23,7 +23,6 @@ function Page() {
             name: 'Mock row',
             amount: 0,
         }
-        await addRow({...newRow})
     }
 
     return (
