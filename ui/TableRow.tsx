@@ -1,12 +1,14 @@
 import React from 'react'
 
 type TableRowProps = {
+    id?: number,
     name?: string,
     amount?: number,
-    type?: string
+    type?: string,
+    onDelete?: (id: number) => void
 }
 
-function TableRow({name, amount, type}: TableRowProps) {
+function TableRow({id, name, amount, type, onDelete}: TableRowProps) {
     const mainRow =
         !name && !amount &&
         <>
@@ -15,11 +17,14 @@ function TableRow({name, amount, type}: TableRowProps) {
         </>
 
     return (
-        <div className={type !== 'statistics' ? 'border-b py-4' : ''}>
+        <div
+            className={`rounded-md border border-transparent cursor-pointer hover:border-zinc-200 hover:bg-zinc-100 transition-all ${type !== 'statistics' ? 'border-b py-4 px-4' : ''}`}
+            onClick={() => onDelete && id ? onDelete(id) : undefined}
+        >
             <div className={'flex justify-between'}>
                 {name ?
                     <>
-                        <p className={type === 'statistics' ? 'font-medium' : ''}>{name}</p>
+                        <p className={type === 'statistics' ? 'font-medium' : ''}>{name} {id}</p>
                         <p>{amount && amount > 0 ? `${amount.toLocaleString('ru-RU')} ₽` : 'Empty'}</p>
                     </>
                     :

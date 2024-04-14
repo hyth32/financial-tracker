@@ -1,25 +1,23 @@
 import React from 'react'
 import Title from '@/ui/Title'
 import TableRow from '@/ui/TableRow'
+import {Row} from '@/data/types'
 
 type TableProps = {
     title: string,
-    rows: {
-        type: string,
-        name: string,
-        amount: number
-    }[]
+    rows: Row[],
+    onDelete?: (id: number) => void
 }
 
-function Table({title, rows}: TableProps) {
+function Table({title, rows, onDelete}: TableProps) {
     return (
         <div>
             <Title type={'h2'} content={title} addClassName={'mb-2'}/>
             {title.toLowerCase() !== 'statistics' && <TableRow type={title.toLowerCase()}/>}
             {rows.length === 0 && <p className={'py-4'}>No data</p>}
-            {rows.map((row, index) => (
-                    <TableRow key={index} {...row}/>
-                ))}
+            {rows.map(row => (
+                <TableRow key={row.id} {...row} onDelete={() => onDelete!(row.id)}/>
+            ))}
         </div>
     )
 }
