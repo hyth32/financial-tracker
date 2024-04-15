@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 type TableRowProps = {
     id?: number,
@@ -33,6 +33,10 @@ function TableRow({id, name, amount, type, onDelete, onEdit}: TableRowProps) {
         }
     }
 
+    useEffect(() => {
+        setNewAmount(amount)
+    }, [amount])
+
     return (
         <div
             className={`rounded-md cursor-pointer hover:bg-zinc-100 transition-all`}
@@ -43,7 +47,7 @@ function TableRow({id, name, amount, type, onDelete, onEdit}: TableRowProps) {
                     isStats ?
                         <>
                             <p>{name}</p>
-                            <p>{amount}</p>
+                            <p>{amount && amount > 0 ? `${amount.toLocaleString('ru-RU')} ₽` : 'Empty'}</p>
                         </>
                         :
                         <>
