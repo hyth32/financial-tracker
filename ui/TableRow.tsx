@@ -14,7 +14,7 @@ function TableRow({id, name, amount, type, onDelete}: TableRowProps) {
     return (
         <div
             className={`rounded-md cursor-pointer hover:bg-zinc-100 transition-all`}
-            onClick={() => onDelete && id ? onDelete(id) : undefined}
+            onClick={() => onDelete && id && !isStats ? onDelete(id) : undefined}
         >
             <div className={`${isStats ? '' : 'border-b py-4 px-1'} flex justify-between`}>
                 {name ?
