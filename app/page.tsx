@@ -9,25 +9,14 @@ import {addRow} from '@/app/api/add-row/addRow'
 import {deleteRow} from '@/app/api/delete-row/deleteRow'
 import Container from '@/ui/Container'
 import Grid from '@/ui/Grid'
+import getStatistics from '@/data/functions/getStatistics'
 
 function Page() {
     const {data, mutate} = useSWR<Row[]>('api/get-rows', getRows)
     const expenses = data ? data.filter(row => row.type === 'expense') : []
     const incomes = data ? data.filter(row => row.type === 'income') : []
-    const budgetStats = data ?
-        data.reduce((acc, val) => acc + (val.type === 'income' ? val.amount : 0), 0)
-        : 0
-    const spentStats = data ?
-        data.reduce((acc, val) => acc + (val.type === 'expense' ? val.amount : 0), 0)
-        : 0
-    const remainingStats = budgetStats - spentStats
+    const statistics = getStatistics(data ? data : [])
     const [rowId, setRowId] = useState(1)
-
-    const statistics = [
-        {id: 1, type: 'statistics', name: 'Budget', amount: budgetStats},
-        {id: 2, type: 'statistics', name: 'Remaining', amount: remainingStats},
-        {id: 3, type: 'statistics', name: 'Spent', amount: spentStats},
-    ]
 
     useEffect(() => {
         if (data) {

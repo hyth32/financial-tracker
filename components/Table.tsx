@@ -18,13 +18,16 @@ function Table({title, rows, onAdd, onDelete}: TableProps) {
 
     return (
         <div>
-            {!isStats &&
-                <Button onClick={() => onAdd ? onAdd(type) : undefined}
-                        addClassName={'absolute right-6 top-6 py-1 px-3 rounded-lg'}>
-                    Add
-                </Button>}
             <Title type={'h2'} content={title} addClassName={'mb-4'}/>
-            {!isStats && <TableRow type={title.toLowerCase()}/>}
+            {!isStats &&
+                <>
+                    <Button onClick={() => onAdd ? onAdd(type) : undefined}
+                            addClassName={'absolute right-6 top-6 py-1 px-3 rounded-lg'}>
+                        Add
+                    </Button>
+                    <TableRow type={title.toLowerCase()}/>
+                </>
+            }
             {rows.length > 0 ?
                 rows.map(row => (
                     <TableRow key={row.id} {...row} onDelete={() => onDelete!(row.id)}/>
