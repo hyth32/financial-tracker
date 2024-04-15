@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import Title from '@/ui/Title'
 import TableRow from '@/ui/TableRow'
@@ -9,10 +10,11 @@ type TableProps = {
     rows: Row[],
     onAdd?: (type: string) => void,
     onDelete?: (id: number) => void,
-    onEdit?: ({id, field, value}: { id: number, field: string, value: string }) => void
+    onEdit?: ({id, field, value}: { id: number, field: string, value: string }) => void,
+    onCategory?: ({id, type, category}: {id: number, type: string, category: string}) => void
 }
 
-function Table({title, rows, onAdd, onDelete, onEdit}: TableProps) {
+function Table({title, rows, onAdd, onDelete, onEdit, onCategory}: TableProps) {
     const rowTitle = title.toLowerCase()
     const isStats = rowTitle === 'statistics'
     const type = rowTitle.slice(0, title.length - 1)
@@ -23,7 +25,7 @@ function Table({title, rows, onAdd, onDelete, onEdit}: TableProps) {
             {!isStats &&
                 <>
                     <Button onClick={() => onAdd ? onAdd(type) : undefined}
-                            addClassName={'absolute right-6 top-6 py-1 px-3 rounded-lg'}>
+                            addClassName={'py-1 px-3 rounded-lg absolute right-6 top-6'}>
                         Add
                     </Button>
                     <TableRow type={title.toLowerCase()}/>
@@ -31,7 +33,10 @@ function Table({title, rows, onAdd, onDelete, onEdit}: TableProps) {
             }
             {rows.length > 0 ?
                 rows.map(row => (
-                    <TableRow key={row.id} {...row} onDelete={() => onDelete!(row.id)} onEdit={onEdit}/>
+                    <TableRow key={row.id} {...row} onDelete={() => onDelete!(row.id)}
+                              onEdit={onEdit}
+                              onCategory={onCategory}
+                    />
                 ))
                 :
                 <p className={'py-4'}>No data</p>

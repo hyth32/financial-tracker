@@ -11,6 +11,7 @@ import Container from '@/ui/Container'
 import Grid from '@/ui/Grid'
 import getStatistics from '@/data/functions/getStatistics'
 import {updateRow} from '@/app/api/update-row/updateRow'
+import {selectCategory} from '@/app/api/select-category/selectCategory'
 
 function Page() {
     const {data, mutate} = useSWR<Row[]>('api/get-rows', getRows)
@@ -46,6 +47,11 @@ function Page() {
         await mutate()
     }
 
+    const handleSelectCategory = async ({id, type, category}: {id: number, type: string, category: string}) => {
+        await selectCategory({id, type, category})
+        await mutate()
+    }
+
     return (
         <Container>
             <TableWrapper addClassName={'w-1/3'}>
@@ -57,6 +63,7 @@ function Page() {
                            onAdd={handleAddRow}
                            onDelete={handleDeleteRow}
                            onEdit={handleEditRow}
+                           onCategory={handleSelectCategory}
                     />
                 </TableWrapper>
                 <TableWrapper>
@@ -64,6 +71,7 @@ function Page() {
                            onAdd={handleAddRow}
                            onDelete={handleDeleteRow}
                            onEdit={handleEditRow}
+                           onCategory={handleSelectCategory}
                     />
                 </TableWrapper>
             </Grid>

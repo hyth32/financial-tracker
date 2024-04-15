@@ -9,7 +9,7 @@ export default function getStatistics(data: Row[] | []) {
     const remainingStats = budgetStats - spentStats
     return [
         {id: 1, type: 'statistics', name: 'Budget', amount: budgetStats},
-        {id: 2, type: 'statistics', name: 'Remaining', amount: remainingStats},
-        {id: 3, type: 'statistics', name: 'Spent', amount: spentStats},
+        {id: 2, type: 'statistics', name: 'Spent', amount: spentStats},
+        {id: 3, type: 'statistics', name: 'Remaining', amount: remainingStats},
     ]
 }
