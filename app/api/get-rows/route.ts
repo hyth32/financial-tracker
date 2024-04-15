@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
             }
             else return new NextResponse(JSON.stringify({error: true, message: 'rows don\'t exist'}))
         } else {
-            const {rows} = await sql`SELECT * FROM finances`
+            const {rows} = await sql`SELECT * FROM finances ORDER BY id`
             return new NextResponse(JSON.stringify({data: rows, error: false}))
         }
     } catch (error) {

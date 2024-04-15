@@ -8,10 +8,11 @@ type TableProps = {
     title: string,
     rows: Row[],
     onAdd?: (type: string) => void,
-    onDelete?: (id: number) => void
+    onDelete?: (id: number) => void,
+    onEdit?: ({id, field, value}: { id: number, field: string, value: string }) => void
 }
 
-function Table({title, rows, onAdd, onDelete}: TableProps) {
+function Table({title, rows, onAdd, onDelete, onEdit}: TableProps) {
     const rowTitle = title.toLowerCase()
     const isStats = rowTitle === 'statistics'
     const type = rowTitle.slice(0, title.length - 1)
@@ -30,7 +31,7 @@ function Table({title, rows, onAdd, onDelete}: TableProps) {
             }
             {rows.length > 0 ?
                 rows.map(row => (
-                    <TableRow key={row.id} {...row} onDelete={() => onDelete!(row.id)}/>
+                    <TableRow key={row.id} {...row} onDelete={() => onDelete!(row.id)} onEdit={onEdit}/>
                 ))
                 :
                 <p className={'py-4'}>No data</p>
