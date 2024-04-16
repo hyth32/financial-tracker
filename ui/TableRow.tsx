@@ -108,9 +108,9 @@ function TableRow({id, name, amount, type, category_id, onDelete, onEdit, onCate
                         <div className={'flex gap-4'}>
                             <div className={'flex justify-between w-full'}>
                                 <p id={'name'} contentEditable={action.isEditing}
-                                   onMouseEnter={() => setAction(a => ({...a, isEditing: true}))}
+                                   onClick={() => setAction(a => ({...a, isEditing: true}))}
                                    suppressContentEditableWarning
-                                   onBlur={handleBlur}>{newField.name}</p>
+                                   onBlur={handleBlur}>{newField.name} {id}</p>
                                 <p id={'amount'} contentEditable={action.isEditing}
                                    onMouseEnter={() => setAction(a => ({...a, isEditing: true}))}
                                    suppressContentEditableWarning
